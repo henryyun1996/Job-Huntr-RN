@@ -43,6 +43,7 @@ class Favorite(db.Model, SerializerMixin):
     __tablename__ = "favorited_jobs"
 
     id = db.Column(db.Integer, primary_key=True)
+    job_id = db.Column(db.Integer, nullable=False) 
     
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     
