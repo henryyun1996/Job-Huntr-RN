@@ -13,5 +13,12 @@ from config import app, db, api
 
 from models import User, Favorite
 
+class Users(Resource):
+    def get(self):
+        user = [user.to_dict() for user in User.query.all()]
+        return make_response(jsonify(user), 200)
+    
+api.add_resource(Users, '/users')
+
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
