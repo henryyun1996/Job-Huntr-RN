@@ -44,8 +44,20 @@ class Favorite(db.Model, SerializerMixin):
     __tablename__ = "favorited_jobs"
 
     id = db.Column(db.Integer, primary_key=True)
-    job_id = db.Column(db.String, nullable=False) 
-    
+    employer_logo = db.Column(db.String)
+    job_title = db.Column(db.String)
+    employer_name = db.Column(db.String)
+    job_city = db.Column(db.String)
+    job_state = db.Column(db.String)
+    job_min_salary = db.Column(db.Integer)
+    job_max_salary = db.Column(db.Integer)
+    job_employment_type = db.Column(db.String)
+    job_apply_link = db.Column(db.String)
+    job_description = db.Column(db.String)
+    job_qualifications = db.Column(db.String)
+    job_responsibilities = db.Column(db.String)
+    job_benefits = db.Column(db.String)
+
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     
     created_at = db.Column(db.DateTime, server_default=db.func.now())

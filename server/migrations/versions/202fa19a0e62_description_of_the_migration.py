@@ -1,8 +1,8 @@
-"""Initial migration
+"""Description of the migration
 
-Revision ID: f73bb5ccfb4d
+Revision ID: 202fa19a0e62
 Revises: 
-Create Date: 2023-07-17 14:54:21.714552
+Create Date: 2023-07-17 20:52:14.139618
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'f73bb5ccfb4d'
+revision = '202fa19a0e62'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -30,7 +30,19 @@ def upgrade():
     )
     op.create_table('favorited_jobs',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('job_id', sa.String(), nullable=False),
+    sa.Column('employer_logo', sa.String(), nullable=True),
+    sa.Column('job_title', sa.String(), nullable=True),
+    sa.Column('employer_name', sa.String(), nullable=True),
+    sa.Column('job_city', sa.String(), nullable=True),
+    sa.Column('job_state', sa.String(), nullable=True),
+    sa.Column('job_min_salary', sa.Integer(), nullable=True),
+    sa.Column('job_max_salary', sa.Integer(), nullable=True),
+    sa.Column('job_employment_type', sa.String(), nullable=True),
+    sa.Column('job_apply_link', sa.String(), nullable=True),
+    sa.Column('job_description', sa.String(), nullable=True),
+    sa.Column('job_qualifications', sa.String(), nullable=True),
+    sa.Column('job_responsibilities', sa.String(), nullable=True),
+    sa.Column('job_benefits', sa.String(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
