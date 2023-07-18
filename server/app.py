@@ -16,6 +16,7 @@ from config import app, db, api
 from models import User, Favorite
 
 class Users(Resource):
+    # Retrieves all users 
     def get(self):
         user = [user.to_dict() for user in User.query.all()]
         return make_response(jsonify(user), 200)
@@ -23,6 +24,7 @@ class Users(Resource):
 api.add_resource(Users, '/users')
 
 class Login(Resource):
+    # Checks credentials and logs a user in
     def post(self):
         request_json = request.get_json()
         email = request_json.get('email')
@@ -43,6 +45,7 @@ class Login(Resource):
 api.add_resource(Login, '/login')
 
 class Logout(Resource):
+    # Logs a user out
     def delete(self):
         session['user_id'] = None 
         response = make_response('',204)
@@ -51,6 +54,7 @@ class Logout(Resource):
 api.add_resource(Logout, '/logout')
 
 class Signup(Resource):
+    # Registers a new user
     def post(self):
         request_json = request.get_json()
         fname = request_json.get('fname')
@@ -79,6 +83,7 @@ class Signup(Resource):
 api.add_resource(Signup, '/signup')
 
 class GeoLocation(Resource):
+    # Retrieves your nearest location
     def get(self):
 
         url = "https://ip-geo-location.p.rapidapi.com/ip/check"
@@ -104,6 +109,7 @@ class GeoLocation(Resource):
 api.add_resource(GeoLocation, '/location')
 
 class Jobs(Resource):
+    # Retrieves job listings
     def get(self):
 
         url = 'https://jsearch.p.rapidapi.com/search?'
@@ -132,6 +138,7 @@ class Jobs(Resource):
 api.add_resource(Jobs, '/jobs')
 
 class Favorites(Resource):
+    # Saves a job to a favorite list
     def post(self):
         request_json = request.get_json()
         employer_logo = request_json.get('employer_logo')
@@ -176,6 +183,7 @@ class Favorites(Resource):
             return make_response({'error': 'Unprocessable Entity'}, 404)
         
     def get(self):
+        # Retrieves all favorite jobs
         favorites = [favorites.to_dict() for favorites in Favorite.query.all()]
         return make_response(jsonify(favorites), 200)
 
@@ -187,5 +195,4 @@ if __name__ == '__main__':
 
 
 # PATCH user's password (Henry)
-
 # DELETE request for un-favoriting job (Christian)
