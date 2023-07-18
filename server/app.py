@@ -23,6 +23,44 @@ class Users(Resource):
 
 api.add_resource(Users, '/users')
 
+class UserByID(Resource):
+    def get(self, id):
+        user = User.query.filter_by(id=id).first()
+        if user:
+            return make_response(user.to_dict(), 200)
+        elif User.query.count() == 0:
+            message = '<h1>Sorry, there are no registered users yet.</h1>'
+            return make_response(message, 404)
+        else:
+            return make_response({"error": "No User found"}, 404)
+
+    def patch(self, id):
+        user = User.query.filter_by(id=id).first()
+        if not user:
+            return make_response({"error": "User not found"}, 404)
+        new_password = request.json.get('_password_hash')
+        new_email = request.json.get('email')
+
+        if new_password:
+            user.password_hash = new_password
+        
+        if new_email:
+            user.email = new_email
+
+        db.session.commit()
+        return make_response(user.to_dict(), 200)
+    
+    def delete(self, id):
+        user = User.query.filter_by(id=id).first()
+        if not user:
+            return make_response({"error": "User not found"}, 404)
+        # need to delete favorited jobs when user is deleted here
+        db.session.delete(user)
+        db.session.commit()
+        return make_response({"message":"User successfully deleted"}, 200)
+    
+api.add_resource(UserByID, '/users/<int:id>')
+
 class Login(Resource):
     def post(self):
         request_json = request.get_json()
@@ -71,6 +109,27 @@ class Signup(Resource):
         
 api.add_resource(Signup, '/signup')
 
+class CheckSession(Resource):
+    def get(self):
+        user_id = session.get('user_id')
+
+        if not user_id:
+            return {'error': 'Unauthorized'}, 401
+        
+        current_user = User.query.filter(User.id == user_id).first()
+        return current_user.to_dict(), 200
+
+api.add_resource(CheckSession, '/check_session')
+
+class Logout(Resource):
+    def delete(self):
+        if session.get('user_id'):
+            session['user_id'] = None
+            return {'message': 'Successfully logged out'}, 204
+        return {'error': '401 Unauthorized'}, 401
+
+api.add_resource(Logout, '/logout')
+
 if __name__ == '__main__':
     log = logging.getLogger('werkzeug')
     log.setLevel(logging.WARNING)
@@ -81,8 +140,8 @@ if __name__ == '__main__':
 # somehow POST favorites to user's profile (both)
 
 # GET request to the external API (Henry)
-# PATCH user's password (Henry)
+# PATCH user's password (Henry) - done
 
 # DELETE request for un-favoriting job (Christian)
-# DELETE request for log out (Christian)
+# DELETE request for log out (Christian) - done
 # GET request for individual favorites (Christian)
