@@ -118,7 +118,7 @@ class Jobs(Resource):
             'Content-Type': 'application/json'
         }
         params = {
-            'query': 'Python developer in Texas, USA',
+            'query': 'cashier in texas, US',
             'radius': '500',
             'page': 3,
             'num_pages': 20
