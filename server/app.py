@@ -8,7 +8,7 @@ from flask import request, session, make_response, jsonify, abort
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 from flask_bcrypt import Bcrypt
-# import requests
+import requests
 
 # Local imports
 from config import app, db, api, CORS
@@ -123,11 +123,10 @@ api.add_resource(Signup, '/signup')
 class GeoLocation(Resource):
     # Retrieves your nearest location
     def get(self):
-
         url = "https://ip-geo-location.p.rapidapi.com/ip/check"
         querystring = {
-            "format":"json"
-            }
+            "format": "json"
+        }
         headers = {
             "X-RapidAPI-Key": "87a13bb857msh6d480686553cc77p1415cajsn5fd5ebf1bbd6",
             "X-RapidAPI-Host": "ip-geo-location.p.rapidapi.com"
@@ -146,21 +145,30 @@ class GeoLocation(Resource):
 
 api.add_resource(GeoLocation, '/location')
 
+
 class Jobs(Resource):
     # Retrieves job listings
     def get(self):
-
         url = 'https://jsearch.p.rapidapi.com/search?'
         headers = {
             'X-RapidAPI-Key': 'KJwZZIJSFimshuivMSVGaiYzkRomp15f2vKjsnK4bKzuUzVLzA',
             'Content-Type': 'application/json'
         }
+        # Set default query parameters
         params = {
-            'query': 'cashier in texas, US',
             'radius': '500',
             'page': 3,
             'num_pages': 20
         }
+
+        # Retrieve the location from the GeoLocation resource
+        location_response = requests.get('http://127.0.0.1:5000/location')
+        if location_response.status_code == 200:
+            location_data = location_response.json()
+            location = location_data.get('city', {}).get('name')
+            if location:
+                # If location is available, update the 'query' parameter accordingly
+                params['query'] = f'cashier in {location}, US'
 
         try:
             response = requests.get(url, headers=headers, params=params)
@@ -174,6 +182,8 @@ class Jobs(Resource):
             return make_response({'error': str(e)}, 500)
 
 api.add_resource(Jobs, '/jobs')
+
+
 
 class Favorites(Resource):
     # Saves a job to a favorite list
