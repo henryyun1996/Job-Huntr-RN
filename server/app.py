@@ -38,8 +38,16 @@ class UserByID(Resource):
         user = User.query.filter_by(id=id).first()
         if not user:
             return make_response({"error": "User not found"}, 404)
+        new_fname = request.json.get('fname')
+        new_lname = request.json.get('lname')
         new_password = request.json.get('_password_hash')
         new_email = request.json.get('email')
+
+        if new_fname:
+            user.fname = new_fname
+        
+        if new_lname:
+            user.lname = new_lname
 
         if new_password:
             user.password_hash = new_password
