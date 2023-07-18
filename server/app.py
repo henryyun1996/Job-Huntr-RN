@@ -23,6 +23,44 @@ class Users(Resource):
 
 api.add_resource(Users, '/users')
 
+class UserByID(Resource):
+    def get(self, id):
+        user = User.query.filter_by(id=id).first()
+        if user:
+            return make_response(user.to_dict(), 200)
+        elif User.query.count() == 0:
+            message = '<h1>Sorry, there are no registered users yet.</h1>'
+            return make_response(message, 404)
+        else:
+            return make_response({"error": "No User found"}, 404)
+
+    def patch(self, id):
+        user = User.query.filter_by(id=id).first()
+        if not user:
+            return make_response({"error": "User not found"}, 404)
+        new_password = request.json.get('_password_hash')
+        new_email = request.json.get('email')
+
+        if new_password:
+            user.password_hash = new_password
+        
+        if new_email:
+            user.email = new_email
+
+        db.session.commit()
+        return make_response(user.to_dict(), 200)
+    
+    def delete(self, id):
+        user = User.query.filter_by(id=id).first()
+        if not user:
+            return make_response({"error": "User not found"}, 404)
+        # need to delete favorited jobs when user is deleted here
+        db.session.delete(user)
+        db.session.commit()
+        return make_response({"message":"User successfully deleted"}, 200)
+    
+api.add_resource(UserByID, '/users/<int:id>')
+
 class Login(Resource):
     # Checks credentials and logs a user in
     def post(self):
@@ -192,7 +230,3 @@ api.add_resource(Favorites, '/favorites')
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
 
-
-
-# PATCH user's password (Henry)
-# DELETE request for un-favoriting job (Christian)
