@@ -7,7 +7,7 @@ from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.hybrid import hybrid_property
 from bcrypt import hashpw, gensalt
 from flask_bcrypt import Bcrypt
-from config import app, db
+from config import app, db, CORS
 
 bcrypt = Bcrypt(app)
 

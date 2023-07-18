@@ -8,10 +8,10 @@ from flask import request, session, make_response, jsonify, abort
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
 from flask_bcrypt import Bcrypt
-import requests
+# import requests
 
 # Local imports
-from config import app, db, api
+from config import app, db, api, CORS
 
 from models import User, Favorite
 
@@ -226,6 +226,17 @@ class Favorites(Resource):
         return make_response(jsonify(favorites), 200)
 
 api.add_resource(Favorites, '/favorites')
+
+class FavoritesByID(Resource):
+    def delete(self, id):
+        favorite = Favorite.query.filter_by(id=id).first()
+        if not favorite:
+            return make_response({"error": "Favorite not found"}, 404)
+        db.session.delete(favorite)
+        db.session.commit()
+        return make_response({"message": "Favorite successfully deleted"}, 200)
+    
+api.add_resource(FavoritesByID, '/favorites/<int:id>')
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
