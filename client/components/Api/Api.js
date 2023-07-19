@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 function Api({ setJobData, setIsLoading }) {
 
   const fetchJobData = async () => {
-    setIsLoading(true)
     try {
       const response = await fetch('http://127.0.0.1:5000/jobs');
       const data = await response.json();

@@ -3,6 +3,7 @@ import { StatusBar, Image, View, Animated, Text } from 'react-native';
 import { styles } from './styles';
 import Api from '../Api/Api';
 import PopularJobs from '../PopularJobs/PopularJobs';
+import Navigation from '../Navigation/Navigation';
 
 export default function App() {
   const [jobData, setJobData] = useState([]);
@@ -19,14 +20,9 @@ export default function App() {
     }
   }, [isLoading, fadeAnim]);
 
-  const handleJobDataUpdate = (data) => {
-    setJobData(data);
-    setIsLoading(false);
-  };
-
   return (
     <View style={styles.container}>
-      <Api setJobData={handleJobDataUpdate} setIsLoading={setIsLoading} />
+      <Api setJobData={setJobData} setIsLoading={setIsLoading} />
       {isLoading ? (
         <View style={styles.loader}>
           <Text style={styles.appTitle}>Job Huntr</Text>
@@ -36,9 +32,12 @@ export default function App() {
           />
         </View>
       ) : (
-        <Animated.View style={[styles.loadedContainer, { opacity: fadeAnim }]}>
-          <PopularJobs jobData={jobData} />
-        </Animated.View>
+        <View>
+          <Navigation />
+          <Animated.View style={[styles.loadedContainer, { opacity: fadeAnim }]}>
+            <PopularJobs jobData={jobData} />
+          </Animated.View>
+        </View>
       )}
       <StatusBar style="auto" />
     </View>
