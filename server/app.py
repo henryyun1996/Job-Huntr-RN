@@ -156,7 +156,7 @@ class Jobs(Resource):
         }
         # Set default query parameters
         params = {
-            'radius': '500',
+            'radius': '25',
             'page': 3,
             'num_pages': 20
         }

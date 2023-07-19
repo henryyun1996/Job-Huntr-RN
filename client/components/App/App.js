@@ -1,19 +1,46 @@
-import { useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { Text, View } from 'react-native';
+import { useState, useEffect, useRef } from 'react';
+import { StatusBar, Image, View, Animated, Text } from 'react-native';
 import { styles } from './styles';
 import Api from '../Api/Api';
+import PopularJobs from '../PopularJobs/PopularJobs';
 
 export default function App() {
-  const [jobData, setJobData] = useState({})
-  console.log(jobData)
+  const [jobData, setJobData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    if (!isLoading) {
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 1000, // Adjust the duration as needed
+        useNativeDriver: true,
+      }).start();
+    }
+  }, [isLoading, fadeAnim]);
+
+  const handleJobDataUpdate = (data) => {
+    setJobData(data);
+    setIsLoading(false);
+  };
 
   return (
     <View style={styles.container}>
-      <Api setJobData={setJobData} />
-      <Text>Open up App.js to start working on your app!</Text>
+      <Api setJobData={handleJobDataUpdate} setIsLoading={setIsLoading} />
+      {isLoading ? (
+        <View style={styles.loader}>
+          <Text style={styles.appTitle}>Job Huntr</Text>
+          <Image
+            style={styles.loaderImage}
+            source={require('../../assets/loading_screen.gif')}
+          />
+        </View>
+      ) : (
+        <Animated.View style={[styles.loadedContainer, { opacity: fadeAnim }]}>
+          <PopularJobs jobData={jobData} />
+        </Animated.View>
+      )}
       <StatusBar style="auto" />
     </View>
   );
 }
-
