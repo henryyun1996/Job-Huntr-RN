@@ -1,20 +1,22 @@
-// styles.js
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
     container: {
-        padding: 10,
         backgroundColor: '#fff',
-        flex: 1, // Use flex: 1 to take up the entire available space
+        flex: 1,
     },
     loader: {
-        flex: 1, // Use flex: 1 to take up the entire available space
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
     },
     appTitle: {
-        fontSize: 20, // Use numbers for fontSize
-        fontWeight: '600', // Use strings for fontWeight
+        fontSize: 20,
+        fontWeight: '600',
+        textAlign: 'center',
+    },
+    title: {
+        marginVertical: 20,
     },
     loaderImage: {
         width: 250,
@@ -23,10 +25,14 @@ export const styles = StyleSheet.create({
     loadedContainer: {
         opacity: 1,
     },
+    contentContainer: {
+        flex: 1, // Take up the entire available space
+    },
     navigationContainer: {
-        position: 'fixed',
+        position: 'absolute',
         bottom: 0,
         left: 0,
         right: 0,
+
     },
 });
