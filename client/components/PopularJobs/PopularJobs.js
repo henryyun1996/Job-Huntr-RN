@@ -3,8 +3,9 @@ import { View, Text, FlatList } from 'react-native';
 import { styles } from './styles';
 
 function PopularJobs({ jobData }) {
-    console.log(jobData)
-    const keyExtractor = (item) => item?.id?.toString() || '';
+    console.log(jobData);
+
+    const keyExtractor = (item, index) => item?.id?.toString() || index.toString();
 
     return (
         <View style={styles.popularJobs}>
@@ -25,5 +26,6 @@ function PopularJobs({ jobData }) {
         </View>
     );
 }
+
 
 export default PopularJobs;

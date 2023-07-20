@@ -32,12 +32,16 @@ export default function App() {
           />
         </View>
       ) : (
-        <View>
-          <Navigation />
-          <Animated.View style={[styles.loadedContainer, { opacity: fadeAnim }]}>
-            <PopularJobs jobData={jobData} />
-          </Animated.View>
-        </View>
+        <>
+          <View style={styles.contentContainer}>
+            <Animated.View style={[styles.loadedContainer, { opacity: fadeAnim }]}>
+              <PopularJobs jobData={jobData} />
+            </Animated.View>
+          </View>
+          <View style={styles.navigationContainer}>
+            <Navigation />
+          </View>
+        </>
       )}
       <StatusBar style="auto" />
     </View>
