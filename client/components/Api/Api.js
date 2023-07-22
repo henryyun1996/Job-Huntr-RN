@@ -2,22 +2,26 @@ import { useEffect } from 'react';
 
 function Api({ setJobData, setIsLoading }) {
 
-  const fetchJobData = async () => {
-    try {
-      const response = await fetch('http://127.0.0.1:5000/jobs');
-      const data = await response.json();
-      setJobData(data.data);
-      setIsLoading(false)
-    } catch (error) {
-      console.error('Error fetching job data:', error);
-    }
-  };
+    const fetchJobData = async () => {
+        const url = 'https://5341-2603-8001-4800-2320-3ca7-c4c7-d437-61fb.ngrok-free.app/jobs';
 
-  useEffect(() => {
-    fetchJobData();
-  }, []);
+        try {
+            const response = await fetch(url);
+            if (response.ok) {
+                const data = await response.json();
+                setJobData(data);
+                setIsLoading(false)
+            }
+        } catch (error) {
+            console.error('Error occurred while fetching data:', error);
+        }
+    };
 
-  return null; // Replace this with your actual component JSX
+    useEffect(() => {
+        fetchJobData();
+    }, []);
+
+    return null;
 }
 
 export default Api;
