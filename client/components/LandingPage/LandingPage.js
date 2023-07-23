@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Text, View, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import styles from './styles';
@@ -7,7 +8,9 @@ import Notifications from '../Notifications/Notifications';
 import UserInfo from '../UserInfo/UserInfo';
 import NavbarFooter from '../NavbarFooter/NavbarFooter';
 
-function LandingPage({ jobData }) {
+function LandingPage({ jobData, user, setUser }) {
+    const [sideNav, setSideNav] = useState(false)
+
     return (
         <View style={styles.landingPage}>
             <LinearGradient
@@ -22,11 +25,11 @@ function LandingPage({ jobData }) {
                     <HomePage jobData={jobData} />
                     <Favorites />
                     <Notifications />
-                    <UserInfo />
                 </ScrollView>
+                <UserInfo sideNav={sideNav} setSideNav={setSideNav} user={user} setUser={setUser} />
             </View>
             <View style={styles.navbarFooter}>
-                <NavbarFooter />
+                <NavbarFooter setSideNav={setSideNav} sideNav={sideNav} />
             </View>
         </View>
     );
