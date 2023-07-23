@@ -15,9 +15,9 @@ function NavbarFooter() {
                     <Icon name="bookmark" size={24} />
                 </Text>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity style={styles.navSearchBtn}>
                 <Text>
-                    <Icon name="search" size={24} />
+                    <Icon name="search" size={24} color="#fff" />
                 </Text>
             </TouchableOpacity>
             <TouchableOpacity>
