@@ -168,7 +168,7 @@ class Jobs(Resource):
             location = location_data.get('city', {}).get('name')
             if location:
                 # If location is available, update the 'query' parameter accordingly
-                params['query'] = f'cashier in {location}, US'
+                params['query'] = f'jobs in {location}, US'
 
         try:
             response = requests.get(url, headers=headers, params=params)

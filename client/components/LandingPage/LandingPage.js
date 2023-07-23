@@ -8,15 +8,18 @@ import UserInfo from '../UserInfo/UserInfo';
 import NavbarFooter from '../NavbarFooter/NavbarFooter';
 
 function LandingPage({ jobData }) {
-    console.log(jobData);
     return (
         <View style={styles.landingPage}>
+            <LinearGradient
+                colors={['rgba(211,211,211,0.8)', 'transparent']}
+                style={styles.background}
+            />
             <View style={styles.appName}>
                 <Text style={styles.appTitle}>Job Huntr</Text>
             </View>
             <View style={styles.contentComponents}>
                 <ScrollView>
-                    <HomePage />
+                    <HomePage jobData={jobData} />
                     <Favorites />
                     <Notifications />
                     <UserInfo />

@@ -5,12 +5,12 @@ import NearbyJobs from './NearbyJobs/NearbyJobs';
 import RecentJobs from './RecentJobs/RecentJobs';
 import styles from './styles'
 
-function HomePage() {
+function HomePage({ jobData }) {
     return (
-        <View>
+        <View style={styles.homePage}>
             <SearchFrom />
-            <NearbyJobs />
-            <RecentJobs />
+            <NearbyJobs jobData={jobData} />
+            <RecentJobs jobData={jobData} />
         </View>
     )
 }
