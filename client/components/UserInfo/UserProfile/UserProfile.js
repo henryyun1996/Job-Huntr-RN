@@ -4,7 +4,7 @@ import styles from './styles';
 function UserProfile({ user, setUser }) {
 
     const handleLogout = () => {
-        fetch('https://5341-2603-8001-4800-2320-3ca7-c4c7-d437-61fb.ngrok-free.app/logout', {
+        fetch('https://fd4d-2603-8001-4800-2320-e4e2-280-7c3f-9142.ngrok-free.app/logout', {
             method: "DELETE",
         }).then(res => {
             if (res.ok) {
@@ -26,7 +26,7 @@ function UserProfile({ user, setUser }) {
                 </View>
             </View>
             <View style={styles.userNav}>
-                <TouchableOpacity >
+                <TouchableOpacity>
                     <Text style={styles.navList}>Profile</Text>
                 </TouchableOpacity>
                 <TouchableOpacity >

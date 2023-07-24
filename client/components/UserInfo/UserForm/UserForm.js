@@ -7,9 +7,9 @@ import styles from './styles';
 function UserForm({ setUser, setSideNav }) {
     const [login, setLogin] = useState(true);
     const loginUrl =
-        'https://5341-2603-8001-4800-2320-3ca7-c4c7-d437-61fb.ngrok-free.app/login';
+        'https://fd4d-2603-8001-4800-2320-e4e2-280-7c3f-9142.ngrok-free.app/login';
     const registerUrl =
-        'https://5341-2603-8001-4800-2320-3ca7-c4c7-d437-61fb.ngrok-free.app/signup';
+        'https://fd4d-2603-8001-4800-2320-e4e2-280-7c3f-9142.ngrok-free.app/signup';
 
     const validationSchema = yup.object().shape({
         fname: yup.string(),
