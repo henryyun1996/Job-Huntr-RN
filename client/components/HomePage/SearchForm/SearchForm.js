@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, TextInput, TouchableOpacity, Text } from 'react-native';
 import { Formik } from 'formik';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import * as yup from 'yup';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './styles';
 
 function SearchForm() {

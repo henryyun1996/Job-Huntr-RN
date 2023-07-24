@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
     landingPage: {
         flex: 1,
+        paddingHorizontal: 20
     },
     background: {
         position: 'absolute',
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
     },
     navbarFooter: {
         flex: .1,
-        justifyContent: "center"
+        justifyContent: "center",
     }
 })
 
