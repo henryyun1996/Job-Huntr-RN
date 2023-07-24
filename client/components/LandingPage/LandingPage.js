@@ -1,4 +1,7 @@
 import { Text, View, ScrollView } from 'react-native';
+
+import { useNavigation } from '@react-navigation/native';
+
 import { LinearGradient } from 'expo-linear-gradient';
 import styles from './styles';
 import HomePage from '../HomePage/HomePage';
@@ -7,8 +10,10 @@ import Notifications from '../Notifications/Notifications';
 import UserInfo from '../UserInfo/UserInfo';
 import NavbarFooter from '../NavbarFooter/NavbarFooter';
 
-function LandingPage({ jobData }) {
-    console.log(jobData);
+function LandingPage({ route }) {
+    const { jobData } = route.params;
+    const navigation = useNavigation();
+
     return (
         <View style={styles.landingPage}>
             <View style={styles.appName}>
