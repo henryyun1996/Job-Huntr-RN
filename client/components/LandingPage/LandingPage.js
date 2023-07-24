@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Text, View, ScrollView } from 'react-native';
+
 import { LinearGradient } from 'expo-linear-gradient';
 import styles from './styles';
 import HomePage from '../HomePage/HomePage';
