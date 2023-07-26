@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import styles from './styles';
 
-function UserForm({ setUser, setSideNav }) {
+function UserForm({ setUser }) {
     const [login, setLogin] = useState(true);
     const loginUrl =
         'https://fd4d-2603-8001-4800-2320-e4e2-280-7c3f-9142.ngrok-free.app/login';
@@ -27,6 +28,8 @@ function UserForm({ setUser, setSideNav }) {
         password: '',
     };
 
+    const navigation = useNavigation();
+
     const handleSubmit = (values) => {
         fetch(login ? loginUrl : registerUrl, {
             method: 'POST',
@@ -38,7 +41,10 @@ function UserForm({ setUser, setSideNav }) {
             if (resp.ok) {
                 resp.json().then((user) => {
                     setUser(user);
-                    setSideNav(false)
+                    navigation.reset({
+                        index: 0,
+                        routes: [{ name: 'LandingPage' }], // Replace 'LandingPage' with the name of your home page screen
+                    });
                 });
             } else {
                 resp.json().then(console.log);

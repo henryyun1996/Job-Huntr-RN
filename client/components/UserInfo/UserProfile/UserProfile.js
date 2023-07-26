@@ -1,8 +1,11 @@
 import { Text, View, Image, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import styles from './styles';
 
 function UserProfile({ user, setUser }) {
     console.log(user)
+
+    const navigation = useNavigation();
 
     const handleLogout = () => {
         fetch('https://fd4d-2603-8001-4800-2320-e4e2-280-7c3f-9142.ngrok-free.app/logout', {
@@ -10,6 +13,10 @@ function UserProfile({ user, setUser }) {
         }).then(res => {
             if (res.ok) {
                 setUser(null);
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'LandingPage' }], // Replace 'LandingPage' with the name of your home page screen
+                });
             }
         })
     }
@@ -22,8 +29,8 @@ function UserProfile({ user, setUser }) {
                     style={{ width: 80, height: 80 }}
                 />
                 <View style={styles.userInfoWrapper}>
-                    <Text style={styles.fname}>{user.user.fname} {user.user.lname}</Text>
-                    <Text style={styles.email}>{user.user.email}</Text>
+                    <Text style={styles.fname}>{user.fname} {user.lname}</Text>
+                    <Text style={styles.email}>{user.email}</Text>
                 </View>
             </View>
             <View style={styles.userNav}>
