@@ -2,6 +2,7 @@ import { Text, View, Image, TouchableOpacity } from 'react-native';
 import styles from './styles';
 
 function UserProfile({ user, setUser }) {
+    console.log(user)
 
     const handleLogout = () => {
         fetch('https://fd4d-2603-8001-4800-2320-e4e2-280-7c3f-9142.ngrok-free.app/logout', {

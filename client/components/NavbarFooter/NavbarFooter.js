@@ -1,25 +1,24 @@
-import { View, TouchableOpacity } from 'react-native';
+import { View } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import HomePage from '../HomePage/HomePage';
+import Favorites from '../Favorites/Favorites';
+import Notifications from '../Notifications/Notifications';
+import UserInfo from '../UserInfo/UserInfo';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './styles';
 
-function NavbarFooter({ sideNav, setSideNav }) {
+function NavbarFooter({ jobData, user, setUser }) {
+    const Tab = createBottomTabNavigator();
+
     return (
-        <View style={styles.footerNavbar}>
-            <TouchableOpacity>
-                <Icon name="home" size={24} />
-            </TouchableOpacity>
-            <TouchableOpacity>
-                <Icon name="bookmark" size={24} />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.navSearchBtn}>
-                <Icon name="search" size={24} color="#fff" />
-            </TouchableOpacity>
-            <TouchableOpacity>
-                <Icon name="bell" size={24} />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => setSideNav(!sideNav)}>
-                <Icon name="user" size={24} />
-            </TouchableOpacity>
+
+        <View style={{ flex: 1 }}>
+            <Tab.Navigator>
+                <Tab.Screen name="Home" component={HomePage} initialParams={{ jobData }} />
+                <Tab.Screen name="Favorites" component={Favorites} />
+                <Tab.Screen name="Notifications" component={Notifications} />
+                <Tab.Screen name="User" component={UserInfo} initialParams={{ user, setUser }} />
+            </Tab.Navigator>
         </View>
     )
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, Linking } from 'react-native';
+import { Text, View, TouchableOpacity, Linking, ScrollView } from 'react-native';
 import styles from './styles';
 
 function RecentJobs({ jobData }) {
