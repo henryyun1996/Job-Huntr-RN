@@ -14,10 +14,30 @@ function NavbarFooter({ jobData, user, setUser }) {
 
         <View style={{ flex: 1 }}>
             <Tab.Navigator>
-                <Tab.Screen name="Home" component={HomePage} initialParams={{ jobData }} />
-                <Tab.Screen name="Favorites" component={Favorites} />
-                <Tab.Screen name="Notifications" component={Notifications} />
-                <Tab.Screen name="User" component={UserInfo} initialParams={{ user, setUser }} />
+                <Tab.Screen
+                    name="Home"
+                    component={HomePage}
+                    initialParams={{ jobData }}
+                    options={{
+                        title: 'Custom Profile Title',
+                    }}
+                />
+                <Tab.Screen
+                    name="Favorites"
+                    component={Favorites}
+                    options={{}}
+                />
+                <Tab.Screen
+                    name="Notifications"
+                    component={Notifications}
+                    options={{}}
+                />
+                <Tab.Screen
+                    name="User"
+                    component={UserInfo}
+                    initialParams={{ user, setUser }}
+                    options={{}}
+                />
             </Tab.Navigator>
         </View>
     )
