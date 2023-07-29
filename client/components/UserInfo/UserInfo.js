@@ -1,15 +1,16 @@
 import React from 'react';
 import { Animated } from 'react-native';
+import { useSelector } from 'react-redux';
 import styles from './styles';
 import UserProfile from './UserProfile/UserProfile';
 import UserForm from './UserForm/UserForm';
 
-function UserInfo({ route }) {
-    const { user, setUser } = route.params;
+function UserInfo() {
+    const user = useSelector((state) => state.user.user);
 
     return (
         <Animated.View style={[styles.userInfo]}>
-            {user ? <UserProfile user={user} setUser={setUser} /> : <UserForm setUser={setUser} />}
+            {user ? <UserProfile /> : <UserForm />}
         </Animated.View>
     );
 }

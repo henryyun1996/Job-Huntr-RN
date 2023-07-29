@@ -1,45 +1,66 @@
-import { View } from 'react-native';
+// NavbarFooter.js
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomePage from '../HomePage/HomePage';
 import Favorites from '../Favorites/Favorites';
 import Notifications from '../Notifications/Notifications';
 import UserInfo from '../UserInfo/UserInfo';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import styles from './styles';
+import SearchResults from '../SearchResults/SearchResults';
+import { Ionicons } from '@expo/vector-icons'; // Import icons from react-native-vector-icons
 
-function NavbarFooter({ jobData, user, setUser }) {
+function NavbarFooter() {
     const Tab = createBottomTabNavigator();
 
     return (
-
-        <View style={{ flex: 1 }}>
-            <Tab.Navigator>
-                <Tab.Screen
-                    name="Home"
-                    component={HomePage}
-                    initialParams={{ jobData }}
-                    options={{
-                        title: 'Custom Profile Title',
-                    }}
-                />
-                <Tab.Screen
-                    name="Favorites"
-                    component={Favorites}
-                    options={{}}
-                />
-                <Tab.Screen
-                    name="Notifications"
-                    component={Notifications}
-                    options={{}}
-                />
-                <Tab.Screen
-                    name="User"
-                    component={UserInfo}
-                    initialParams={{ user, setUser }}
-                    options={{}}
-                />
-            </Tab.Navigator>
-        </View>
+        <Tab.Navigator>
+            <Tab.Screen
+                name="Home"
+                component={HomePage}
+                options={{
+                    headerShown: false,
+                    tabBarIcon: ({ color, size }) => (
+                        <Ionicons name="home" color={color} size={size} />
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="Favorites"
+                component={Favorites}
+                options={{
+                    headerShown: false,
+                    tabBarIcon: ({ color, size }) => (
+                        <Ionicons name="bookmark" color={color} size={size} />
+                    ),
+                }} />
+            <Tab.Screen
+                name="Search"
+                component={SearchResults}
+                options={{
+                    headerShown: false,
+                    tabBarIcon: ({ color, size }) => (
+                        <Ionicons name="search" color={color} size={size} />
+                    ),
+                }} />
+            <Tab.Screen
+                name="Notifications"
+                component={Notifications}
+                options={{
+                    headerShown: false,
+                    tabBarIcon: ({ color, size }) => (
+                        <Ionicons name="notifications" color={color} size={size} />
+                    ),
+                }} />
+            <Tab.Screen
+                name="User"
+                component={UserInfo}
+                options={{
+                    tabBarVisible: false, // Hide the tab bar when on the UserInfo screen
+                    headerShown: false,
+                    tabBarIcon: ({ color, size }) => (
+                        <Ionicons name="person" color={color} size={size} />
+                    ),
+                }}
+            />
+        </Tab.Navigator>
     )
 }
 

@@ -17,9 +17,15 @@ const styles = StyleSheet.create({
         width: 200,
         borderRadius: 25,
     },
-
+    titleWrapper: {
+        flexDirection: "row",
+        justifyContent: "space-between"
+    },
     jobTitle: {
         fontWeight: 600
+    },
+    icons: {
+        fontSize: 18
     },
     applyHereText: {
         paddingVertical: 10,
