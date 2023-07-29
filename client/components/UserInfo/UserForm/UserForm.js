@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 import { Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { useNavigation } from '@react-navigation/native'
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../../redux/slices/user';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import styles from './styles';
 
-function UserForm({ setUser, setSideNav }) {
+function UserForm() {
+    const dispatch = useDispatch();
+
     const [login, setLogin] = useState(true);
     const loginUrl =
         'https://fd4d-2603-8001-4800-2320-e4e2-280-7c3f-9142.ngrok-free.app/login';
@@ -18,11 +23,6 @@ function UserForm({ setUser, setSideNav }) {
         password: yup
             .string()
             .required('Password is required')
-            .min(8, 'Password must be at least 8 characters')
-            .matches(
-                /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                'Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character'
-            ),
     });
 
     const initialValues = {
@@ -31,6 +31,8 @@ function UserForm({ setUser, setSideNav }) {
         email: '',
         password: '',
     };
+
+    const navigation = useNavigation();
 
     const handleSubmit = (values) => {
         fetch(login ? loginUrl : registerUrl, {
@@ -42,8 +44,11 @@ function UserForm({ setUser, setSideNav }) {
         }).then((resp) => {
             if (resp.ok) {
                 resp.json().then((user) => {
-                    setUser(user);
-                    setSideNav(false)
+                    dispatch(setUser(user));
+                    navigation.reset({
+                        index: 0,
+                        routes: [{ name: 'LandingPage' }], // Replace 'LandingPage' with the name of your home page screen
+                    });
                 });
             } else {
                 resp.json().then(console.log);

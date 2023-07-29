@@ -1,14 +1,25 @@
 import { Text, View, Image, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../../redux/slices/user';
 import styles from './styles';
 
-function UserProfile({ user, setUser }) {
+function UserProfile() {
+    const user = useSelector((state) => state.user.user);
+    const navigation = useNavigation();
+    const dispatch = useDispatch();
 
     const handleLogout = () => {
         fetch('https://fd4d-2603-8001-4800-2320-e4e2-280-7c3f-9142.ngrok-free.app/logout', {
             method: "DELETE",
         }).then(res => {
             if (res.ok) {
-                setUser(null);
+                dispatch(setUser(null));
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'LandingPage' }], // Replace 'LandingPage' with the name of your home page screen
+                });
             }
         })
     }
@@ -21,8 +32,8 @@ function UserProfile({ user, setUser }) {
                     style={{ width: 80, height: 80 }}
                 />
                 <View style={styles.userInfoWrapper}>
-                    <Text style={styles.fname}>{user.user.fname} {user.user.lname}</Text>
-                    <Text style={styles.email}>{user.user.email}</Text>
+                    <Text style={styles.fname}>{user.fname} {user.lname}</Text>
+                    <Text style={styles.email}>{user.email}</Text>
                 </View>
             </View>
             <View style={styles.userNav}>

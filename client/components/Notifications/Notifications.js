@@ -1,8 +1,9 @@
 import { Text, View } from 'react-native';
+import styles from './styles';
 
 function Notifications() {
     return (
-        <View>
+        <View style={styles.notifications}>
             <Text>Notifications</Text>
         </View>
     )

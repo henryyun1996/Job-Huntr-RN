@@ -1,27 +1,14 @@
-import { useState } from 'react'
-import { View, SafeAreaView } from 'react-native';
-import styles from './styles'
-import Api from './components/Api/Api';
-import IsLoading from './components/IsLoading/IsLoading';
-import LandingPage from './components/LandingPage/LandingPage';
+import React from 'react'
+import { Provider } from 'react-redux';
+import { store } from './redux/store'
+import Index from './index'
 
-export default function App() {
-  const [isLoading, setIsLoading] = useState(true)
-  const [user, setUser] = useState(null)
-  const [jobData, setJobData] = useState({})
-
-  return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <View style={styles.container}>
-        <Api setJobData={setJobData} setIsLoading={setIsLoading} />
-        {isLoading ? <IsLoading /> :
-          <LandingPage
-            jobData={jobData}
-            setUser={setUser}
-            user={user}
-          />}
-      </View>
-    </SafeAreaView>
-  );
+function App() {
+    return (
+        <Provider store={store}>
+            <Index />
+        </Provider>
+    )
 }
 
+export default App
