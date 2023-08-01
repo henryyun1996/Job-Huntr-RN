@@ -72,10 +72,7 @@ class Login(Resource):
 
         if check_user and check_user.authenticate(password):
             session['user_id'] = check_user.id
-            response_data = {
-                'message': 'Login successful',
-                'user': check_user.to_dict()
-            }
+            response_data = check_user.to_dict()
             return make_response(response_data, 200)
         
         return {'error': 'Unauthorized'}, 401

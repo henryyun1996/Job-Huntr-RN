@@ -7,9 +7,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 600
     },
-    searchJobsList: {
-        paddingVertical: 10
-    },
     searchJobCard: {
         backgroundColor: "#F2F2F2",
         paddingVertical: 10,
