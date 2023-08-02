@@ -12,9 +12,9 @@ function UserForm() {
 
     const [login, setLogin] = useState(true);
     const loginUrl =
-        'https://fd4d-2603-8001-4800-2320-e4e2-280-7c3f-9142.ngrok-free.app/login';
+        'https://3908-2603-8001-4800-2320-591e-f5ec-bb1d-37e4.ngrok-free.app/login';
     const registerUrl =
-        'https://fd4d-2603-8001-4800-2320-e4e2-280-7c3f-9142.ngrok-free.app/signup';
+        'https://3908-2603-8001-4800-2320-591e-f5ec-bb1d-37e4.ngrok-free.app/signup';
 
     const validationSchema = yup.object().shape({
         fname: yup.string(),
@@ -22,7 +22,13 @@ function UserForm() {
         email: yup.string().email('Invalid email').required('Email is required'),
         password: yup
             .string()
-            .required('Password is required')
+            .required('Password is required'),
+        phone_number: yup
+            .string()
+            .transform((value) => (value ? value.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3') : ''))
+            .matches(/^\(\d{3}\) \d{3}-\d{4}$/, 'Invalid phone number')
+            .required('Phone number is required'),
+
     });
 
     const initialValues = {
@@ -30,6 +36,7 @@ function UserForm() {
         lname: '',
         email: '',
         password: '',
+        phone_number: '',
     };
 
     const navigation = useNavigation();
@@ -51,9 +58,14 @@ function UserForm() {
                     });
                 });
             } else {
-                resp.json().then(console.log);
+                resp.json().then((error) => {
+                    console.log('Login error:', error);
+                });
             }
-        });
+        })
+            .catch((error) => {
+                console.log('Error occurred:', error);
+            });
     };
 
     return (
@@ -99,6 +111,17 @@ function UserForm() {
                             onBlur={handleBlur('email')}
                             value={values.email}
                         />
+                        {!login && (
+                            <>
+                                <TextInput
+                                    style={styles.inputForm}
+                                    placeholder="(999) 999-9999"
+                                    onChangeText={handleChange('phone_number')}
+                                    onBlur={handleBlur('phone_number')}
+                                    value={values.phone_number}
+                                />
+                            </>
+                        )}
                         <TextInput
                             style={styles.inputForm}
                             placeholder="Password"

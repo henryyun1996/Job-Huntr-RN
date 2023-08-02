@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView, Linking } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSliceIndex } from '../../redux/slices/sliceIndex';
@@ -11,7 +11,6 @@ import SearchResultDetails from './SearchResultDetails/SearchResultDetails';
 import styles from './styles';
 
 function SearchResults() {
-    const [clickedJobCards, setClickedJobCards] = useState({});
     const dispatch = useDispatch();
 
     const searchJobData = useSelector((state) => state.searchJobData.searchJobData);
@@ -24,15 +23,16 @@ function SearchResults() {
     // Get the slice of jobData.data from index 0 to 14
     const slicedSearchJobData = searchJobData?.data?.slice(0, sliceIndex) || []; // Use empty array if jobData or jobData.data is undefined
 
+
     const handleIconClick = (index) => {
-        if (user) {
-            setClickedJobCards((prevState) => ({
-                ...prevState,
-                [index]: true,
-            }));
-            handleSavedCard(index);
+        const conditionalJobSave = favoriteJobData.some((favItem) => favItem.job_id === searchJobData.data[index].job_id)
+
+        if (user && conditionalJobSave) {
+            console.log("already saved")
         } else {
-            alert("You must be signed in to save a job.");
+            console.log("not saved")
+            handleSavedCard(index);
+            // alert("You must be signed in to save a job.");
         }
     };
 
@@ -56,39 +56,37 @@ function SearchResults() {
         const job_qualifications = selectedJob?.job_qualifications;
         const job_responsibilities = selectedJob?.job_responsibilities;
         const job_benefits = selectedJob?.job_benefits ? JSON.stringify(selectedJob.job_benefits) : null; // Convert array to string
+        const job_id = selectedJob?.job_id;
 
-        if (!clickedJobCards[index]) {
-            try {
-                const response = await fetch('https://fd4d-2603-8001-4800-2320-e4e2-280-7c3f-9142.ngrok-free.app/favorites', {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        job_title,
-                        employer_name,
-                        job_city,
-                        job_state,
-                        job_min_salary,
-                        job_max_salary,
-                        job_employment_type,
-                        job_apply_link,
-                        job_description,
-                        job_qualifications,
-                        job_responsibilities,
-                        job_benefits,
-                        user_id: user.id
-                    }),
-                });
-                const newFavorite = await response.json();
-                // Dispatch an action to update the Redux store with the new favorite data
-                dispatch(setFavoriteJobData([...favoriteJobData, newFavorite]));
-            } catch (error) {
-                console.error("Error adding favorite:", error);
-            }
-        } else {
-            null
+        try {
+            const response = await fetch('https://3908-2603-8001-4800-2320-591e-f5ec-bb1d-37e4.ngrok-free.app/favorites', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    job_title,
+                    employer_name,
+                    job_city,
+                    job_state,
+                    job_min_salary,
+                    job_max_salary,
+                    job_employment_type,
+                    job_apply_link,
+                    job_description,
+                    job_qualifications,
+                    job_responsibilities,
+                    job_benefits,
+                    job_id,
+                    user_id: user.id
+                }),
+            });
+            const newFavorite = await response.json();
+            // Dispatch an action to update the Redux store with the new favorite data
+            dispatch(setFavoriteJobData([...favoriteJobData, newFavorite]));
+        } catch (error) {
+            console.error("Error adding favorite:", error);
         }
     };
 
@@ -113,7 +111,7 @@ function SearchResults() {
 
     // Function to render each job card
     const renderSearchJobCard = ({ item, index }) => {
-        const isClicked = clickedJobCards[index] || false;
+        const conditionalIcon = favoriteJobData.some((favItem) => favItem.job_id === searchJobData.data[index].job_id)
 
         return (
             <TouchableOpacity
@@ -129,7 +127,7 @@ function SearchResults() {
                         <TouchableOpacity onPress={() => handleIconClick(index)}>
                             <Ionicons
                                 style={styles.icons}
-                                name={isClicked ? "bookmark" : "bookmark-outline"}
+                                name={user && conditionalIcon ? "bookmark" : "bookmark-outline"}
                             />
                         </TouchableOpacity>
                     </View>

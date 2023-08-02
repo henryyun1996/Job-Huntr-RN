@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { ScrollView, Text, TouchableOpacity, View, Linking } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { setFavoriteJobData } from '../../redux/slices/favoriteJobData';
+import { setFavoriteIndexCard } from '../../redux/slices/favoriteIndexCard';
+import { setFavoritedCardDetails } from '../../redux/slices/favoritedCardDetails';
 import { Ionicons } from '@expo/vector-icons'; // Import icons from react-native-vector-icons
 import styles from './styles';
 import FavoritedCardDetails from './FavoritedCardDetails/FavoritedCardDetails';
@@ -9,6 +11,7 @@ import FavoritedCardDetails from './FavoritedCardDetails/FavoritedCardDetails';
 function Favorites() {
     const dispatch = useDispatch();
     const favoriteJobData = useSelector((state) => state.favoriteJobData.favoriteJobData);
+    const favoritedCardDetails = useSelector((state) => state.favoritedCardDetails.favoritedCardDetails);
     const user = useSelector((state) => state.user.user);
 
     const handleOpenJobURL = async (url) => {
@@ -22,14 +25,14 @@ function Favorites() {
     };
 
     const fetchSavedData = () => {
-        fetch("https://fd4d-2603-8001-4800-2320-e4e2-280-7c3f-9142.ngrok-free.app/favorites")
+        fetch("https://3908-2603-8001-4800-2320-591e-f5ec-bb1d-37e4.ngrok-free.app/favorites")
             .then((resp) => resp.json())
             .then((savedData) => dispatch(setFavoriteJobData(savedData)));
     };
 
     const handleDeleteCard = async (id) => {
         try {
-            await fetch(`https://fd4d-2603-8001-4800-2320-e4e2-280-7c3f-9142.ngrok-free.app/favorites/${id}`, {
+            await fetch(`https://3908-2603-8001-4800-2320-591e-f5ec-bb1d-37e4.ngrok-free.app/favorites/${id}`, {
                 method: 'DELETE',
             });
 
@@ -41,67 +44,67 @@ function Favorites() {
         }
     };
 
-    const getNumberOfSavedJobs = () => {
-        if (user) {
-            return favoriteJobData.filter((item) => item.user?.id === user.id).length;
-        }
-        return 0;
-    };
-
     useEffect(() => {
         fetchSavedData();
     }, []);
 
+    const handleFavoriteCardDetails = (index) => {
+        dispatch(setFavoritedCardDetails(true))
+        dispatch(setFavoriteIndexCard(index))
+    }
+
     return (
         <View style={styles.favorites}>
-            {/* <FavoritedCardDetails /> */}
+            {favoritedCardDetails && <FavoritedCardDetails />}
             <ScrollView>
-                <Text style={styles.favoritesText}>Saved Jobs ({getNumberOfSavedJobs()})</Text>
+                <Text style={styles.favoritesText}>Saved Jobs</Text>
                 {user ? (
-                    favoriteJobData.map((item) => {
-                        if (item.user?.id === user.id) {
-                            return (
-                                <View style={styles.savedJobCard} key={item.id}>
-                                    <TouchableOpacity>
-                                        <View style={styles.titleWrapper}>
-                                            <Text style={styles.savedJobTitle} numberOfLines={1}>{item.job_title}</Text>
-                                            <TouchableOpacity onPress={() => handleDeleteCard(item.id)}>
-                                                <Ionicons
-                                                    style={styles.icons}
-                                                    name="bookmark"
-                                                />
-                                            </TouchableOpacity>
-                                        </View>
-                                        <Text style={styles.savedEmployerName} numberOfLines={1}>
-                                            {item.employer_name}
-                                        </Text>
-                                        <Text style={styles.savedJobLocation} numberOfLines={1}>
-                                            {item.job_city}, {item.job_state}
-                                        </Text>
-                                        <View style={styles.savedJobSubInfo}>
-                                            <Text style={styles.savedSalaryText}>
-                                                {item.job_min_salary !== null && item.job_max_salary !== null
-                                                    ? `$${item.job_min_salary} - $${item.job_max_salary}`
-                                                    : '$N/A'}
+                    favoriteJobData.length > 0 ? (
+                        favoriteJobData.map((item, index) => {
+                            if (item.user?.id === user.id) {
+                                return (
+                                    <View style={styles.savedJobCard} key={item.id}>
+                                        <TouchableOpacity onPress={() => handleFavoriteCardDetails(index)}>
+                                            <View style={styles.titleWrapper}>
+                                                <Text style={styles.savedJobTitle} numberOfLines={1}>{item.job_title}</Text>
+                                                <TouchableOpacity onPress={() => handleDeleteCard(item.id)}>
+                                                    <Ionicons
+                                                        style={styles.icons}
+                                                        name="bookmark"
+                                                    />
+                                                </TouchableOpacity>
+                                            </View>
+                                            <Text style={styles.savedEmployerName} numberOfLines={1}>
+                                                {item.employer_name}
                                             </Text>
-                                            <Text style={styles.savedJobType}>{item.job_employment_type}</Text>
-                                        </View>
-                                        <Text
-                                            style={styles.savedApplyHereText}
-                                            onPress={() => handleOpenJobURL(item.job_apply_link)}
-                                        >
-                                            Apply Here
-                                        </Text>
-                                    </TouchableOpacity>
-                                </View>
-                            );
-                        }
-                        return null;
-                    })
+                                            <Text style={styles.savedJobLocation} numberOfLines={1}>
+                                                {item.job_city}, {item.job_state}
+                                            </Text>
+                                            <View style={styles.savedJobSubInfo}>
+                                                <Text style={styles.savedSalaryText}>
+                                                    {item.job_min_salary !== null && item.job_max_salary !== null
+                                                        ? `$${item.job_min_salary} - $${item.job_max_salary}`
+                                                        : '$N/A'}
+                                                </Text>
+                                                <Text style={styles.savedJobType}>{item.job_employment_type}</Text>
+                                            </View>
+                                            <Text
+                                                style={styles.savedApplyHereText}
+                                                onPress={() => handleOpenJobURL(item.job_apply_link)}
+                                            >
+                                                Apply Here
+                                            </Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                );
+                            }
+                            return null;
+                        })
+                    ) : (
+                        <Text style={{ textAlign: "center" }}>No saved jobs found.</Text>
+                    )
                 ) : (
-                    <View>
-                        <Text style={{ textAlign: "center" }}>User must be logged in.</Text>
-                    </View>
+                    <Text style={{ textAlign: "center" }}>User must be logged in.</Text>
                 )}
             </ScrollView>
         </View>

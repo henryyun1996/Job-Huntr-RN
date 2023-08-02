@@ -3,15 +3,18 @@ import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../../redux/slices/user';
+import { setProfileInfo } from '../../../redux/slices/profileInfo';
+import ProfileInfo from './ProfileInfo/ProfileInfo';
 import styles from './styles';
 
 function UserProfile() {
     const user = useSelector((state) => state.user.user);
+    const profileInfo = useSelector((state) => state.profileInfo.profileInfo);
     const navigation = useNavigation();
     const dispatch = useDispatch();
 
     const handleLogout = () => {
-        fetch('https://fd4d-2603-8001-4800-2320-e4e2-280-7c3f-9142.ngrok-free.app/logout', {
+        fetch('https://3908-2603-8001-4800-2320-591e-f5ec-bb1d-37e4.ngrok-free.app/logout', {
             method: "DELETE",
         }).then(res => {
             if (res.ok) {
@@ -22,6 +25,10 @@ function UserProfile() {
                 });
             }
         })
+    }
+
+    const handleProfileInfo = () => {
+        dispatch(setProfileInfo(true))
     }
 
     return (
@@ -36,25 +43,31 @@ function UserProfile() {
                     <Text style={styles.email}>{user.email}</Text>
                 </View>
             </View>
-            <View style={styles.userNav}>
-                <TouchableOpacity>
-                    <Text style={styles.navList}>Profile</Text>
-                </TouchableOpacity>
-                <TouchableOpacity >
-                    <Text style={styles.navList}>Favorites</Text>
-                </TouchableOpacity>
-                <TouchableOpacity >
-                    <Text style={styles.navList}>Settings</Text>
-                </TouchableOpacity>
-                <TouchableOpacity >
-                    <Text style={styles.navList}>Help Center</Text>
-                </TouchableOpacity>
-            </View>
-            <View style={styles.logout}>
-                <TouchableOpacity onPress={handleLogout} >
-                    <Text>Log Out</Text>
-                </TouchableOpacity>
-            </View>
+            {profileInfo && <ProfileInfo />}
+            {!profileInfo &&
+                <>
+                    <View style={styles.userNav}>
+                        <TouchableOpacity onPress={handleProfileInfo}>
+                            <Text style={styles.navList}>Profile</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => navigation.navigate('Favorites')}>
+                            <Text style={styles.navList}>Favorites</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity >
+                            <Text style={styles.navList}>Settings</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity >
+                            <Text style={styles.navList}>Help Center</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.logout}>
+                        <TouchableOpacity onPress={handleLogout} >
+                            <Text>Log Out</Text>
+                        </TouchableOpacity>
+                    </View>
+                </>
+
+            }
         </View>
     )
 }
