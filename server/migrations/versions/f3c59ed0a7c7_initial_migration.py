@@ -1,8 +1,8 @@
 """Initial migration
 
-Revision ID: 3d7b9017d85e
+Revision ID: f3c59ed0a7c7
 Revises: 
-Create Date: 2023-07-31 12:55:39.794449
+Create Date: 2023-08-01 23:36:11.701742
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '3d7b9017d85e'
+revision = 'f3c59ed0a7c7'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -23,6 +23,11 @@ def upgrade():
     sa.Column('fname', sa.String(), nullable=False),
     sa.Column('lname', sa.String(), nullable=False),
     sa.Column('email', sa.String(), nullable=False),
+    sa.Column('phone_number', sa.String(), nullable=False),
+    sa.Column('street_address', sa.String(), nullable=False),
+    sa.Column('city', sa.String(), nullable=False),
+    sa.Column('state', sa.String(), nullable=False),
+    sa.Column('postal_code', sa.Integer(), nullable=False),
     sa.Column('_password_hash', sa.String(), nullable=False),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),
@@ -43,6 +48,7 @@ def upgrade():
     sa.Column('job_qualifications', sa.String(), nullable=True),
     sa.Column('job_responsibilities', sa.String(), nullable=True),
     sa.Column('job_benefits', sa.String(), nullable=True),
+    sa.Column('job_id', sa.String(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('(CURRENT_TIMESTAMP)'), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),

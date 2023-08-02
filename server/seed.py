@@ -23,6 +23,11 @@ with app.app_context():
             fname=fake.first_name(),
             lname=fake.last_name(),
             email=fake.email(),
+            phone_number=fake.phone_number(),
+            street_address=fake.street_address(),
+            city=fake.city(),
+            state=fake.state(),
+            postal_code = fake.pyint(),
             password_hash=fake.password(),
         )
         db.session.add(user)

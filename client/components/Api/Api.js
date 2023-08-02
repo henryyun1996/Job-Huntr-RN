@@ -7,7 +7,7 @@ function Api() {
     const dispatch = useDispatch();
 
     const fetchJobData = async () => {
-        const url = 'https://fd4d-2603-8001-4800-2320-e4e2-280-7c3f-9142.ngrok-free.app/jobs';
+        const url = 'https://3908-2603-8001-4800-2320-591e-f5ec-bb1d-37e4.ngrok-free.app/jobs';
 
         try {
             console.log('fetching data from API')

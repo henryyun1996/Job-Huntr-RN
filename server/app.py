@@ -95,12 +95,22 @@ class Signup(Resource):
         fname = request_json.get('fname')
         lname = request_json.get('lname')
         email = request_json.get('email')
+        phone_number = request_json.get('phone_number')
+        street_address = request_json.get('street_address')
+        city = request_json.get('city')
+        state = request_json.get('state')
+        postal_code = request_json.get('postal_code')
         password = request_json.get('password')
 
         new_user = User(
             fname=fname,
             lname=lname,
-            email=email
+            email=email,
+            phone_number=phone_number,
+            street_address=street_address,
+            city=city,
+            state=state,
+            postal_code=postal_code
         )
 
         new_user.password_hash = password
@@ -199,6 +209,7 @@ class Favorites(Resource):
         job_qualifications = request_json.get('job_qualifications')
         job_responsibilities = request_json.get('job_responsibilities')
         job_benefits = request_json.get('job_benefits')
+        job_id = request_json.get('job_id')
         user_id = request_json.get('user_id')
 
         new_favorite = Favorite(
@@ -215,6 +226,7 @@ class Favorites(Resource):
             job_qualifications = job_qualifications,
             job_responsibilities = job_responsibilities,
             job_benefits = job_benefits,
+            job_id = job_id,
             user_id = user_id
         )
 

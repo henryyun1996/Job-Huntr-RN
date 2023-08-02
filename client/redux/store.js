@@ -9,9 +9,10 @@ import searchJobDataReducer from './slices/searchJobData';
 import sliceIndexSliceReducer from './slices/sliceIndex';
 import cardDetailsReducer from './slices/cardDetails'
 import indexCardReducer from './slices/indexCard';
+import favoriteIndexCardReducer from './slices/favoriteIndexCard';
 import sliceFavoritedIndexReducer from './slices/sliceFavoritedIndex'
-import savedCardIndexReducer from './slices/savedIndexCard';
 import favoritedCardDetailsReducer from './slices/favoritedCardDetails'
+import profileInfoReducer from './slices/profileInfo';
 
 export const store = configureStore({
     reducer: {
@@ -24,8 +25,9 @@ export const store = configureStore({
         sliceIndex: sliceIndexSliceReducer,
         cardDetails: cardDetailsReducer,
         indexCard: indexCardReducer,
-        savedIndexCard: savedCardIndexReducer,
+        favoriteIndexCard: favoriteIndexCardReducer,
         sliceFavoritedIndex: sliceFavoritedIndexReducer,
-        favoritedCardDetails: favoritedCardDetailsReducer
+        favoritedCardDetails: favoritedCardDetailsReducer,
+        profileInfo: profileInfoReducer,
     },
 });
