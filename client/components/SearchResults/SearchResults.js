@@ -127,7 +127,7 @@ function SearchResults() {
                         <TouchableOpacity onPress={() => handleIconClick(index)}>
                             <Ionicons
                                 style={styles.icons}
-                                name={user && !conditionalIcon ? "bookmark-outline" : "bookmark"}
+                                name={user && conditionalIcon ? "bookmark" : "bookmark-outline"}
                             />
                         </TouchableOpacity>
                     </View>
