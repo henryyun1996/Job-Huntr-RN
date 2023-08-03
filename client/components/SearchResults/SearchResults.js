@@ -27,12 +27,13 @@ function SearchResults() {
     const handleIconClick = (index) => {
         const conditionalJobSave = favoriteJobData.some((favItem) => favItem.job_id === searchJobData.data[index].job_id)
 
-        if (user && conditionalJobSave) {
-            console.log("already saved")
-        } else {
-            console.log("not saved")
+        if (user && !conditionalJobSave) {
             handleSavedCard(index);
+        } else if ((user && conditionalJobSave)) {
+            alert("Job already saved.")
+        } else {
             alert("You must be signed in to save a job.");
+
         }
     };
 
