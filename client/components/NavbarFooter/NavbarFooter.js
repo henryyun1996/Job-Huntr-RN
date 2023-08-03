@@ -40,15 +40,7 @@ function NavbarFooter() {
                         <Ionicons name="search" color={color} size={size} />
                     ),
                 }} />
-            <Tab.Screen
-                name="Notifications"
-                component={Notifications}
-                options={{
-                    headerShown: false,
-                    tabBarIcon: ({ color, size }) => (
-                        <Ionicons name="notifications" color={color} size={size} />
-                    ),
-                }} />
+
             <Tab.Screen
                 name="User"
                 component={UserInfo}

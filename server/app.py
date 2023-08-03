@@ -38,14 +38,28 @@ class UserByID(Resource):
         user = User.query.filter_by(id=id).first()
         if not user:
             return make_response({"error": "User not found"}, 404)
-        new_password = request.json.get('_password_hash')
         new_email = request.json.get('email')
+        new_phone_number = request.json.get('phone_number')
+        new_street_address = request.json.get('street_address')
+        new_city = request.json.get('city')
+        new_state = request.json.get('state')
+        new_postal_code = request.json.get('postal_code')
+        new_password = request.json.get('_password_hash')
 
-        if new_password:
-            user.password_hash = new_password
-        
         if new_email:
             user.email = new_email
+        if new_phone_number:
+            user.phone_number = new_phone_number
+        if new_street_address:
+            user.street_address = new_street_address
+        if new_city:
+            user.city = new_city
+        if new_state:
+            user.state = new_state
+        if new_postal_code:
+            user.postal_code = new_postal_code
+        if new_password:
+            user.password_hash = new_password
 
         db.session.commit()
         return make_response(user.to_dict(), 200)

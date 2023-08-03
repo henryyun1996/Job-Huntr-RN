@@ -13,6 +13,15 @@ import favoriteIndexCardReducer from './slices/favoriteIndexCard';
 import sliceFavoritedIndexReducer from './slices/sliceFavoritedIndex'
 import favoritedCardDetailsReducer from './slices/favoritedCardDetails'
 import profileInfoReducer from './slices/profileInfo';
+import settingsInfoReducer from './slices/settingsInfo';
+import emailChangeReducer from './slices/emailChange';
+import phoneNumberChangeReducer from './slices/phoneNumberChange';
+import streetAddressChangeReducer from './slices/streetAddressChange';
+import cityChangeReducer from './slices/cityChange';
+import stateChangeReducer from './slices/stateChange';
+import postalCodeChangeReducer from './slices/postalCodeChange';
+import passwordChangeReducer from './slices/passwordChange';
+import aboutReducer from './slices/about';
 
 export const store = configureStore({
     reducer: {
@@ -29,5 +38,14 @@ export const store = configureStore({
         sliceFavoritedIndex: sliceFavoritedIndexReducer,
         favoritedCardDetails: favoritedCardDetailsReducer,
         profileInfo: profileInfoReducer,
+        settingsInfo: settingsInfoReducer,
+        emailChange: emailChangeReducer,
+        phoneNumberChange: phoneNumberChangeReducer,
+        streetAddressChange: streetAddressChangeReducer,
+        cityChange: cityChangeReducer,
+        stateChange: stateChangeReducer,
+        postalCodeChange: postalCodeChangeReducer,
+        passwordChange: passwordChangeReducer,
+        about: aboutReducer
     },
 });

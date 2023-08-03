@@ -4,12 +4,18 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../../redux/slices/user';
 import { setProfileInfo } from '../../../redux/slices/profileInfo';
+import { setSettingsInfo } from '../../../redux/slices/settingsInfo';
+import { setAbout } from '../../../redux/slices/about';
 import ProfileInfo from './ProfileInfo/ProfileInfo';
+import SettingsInfo from './SettingsInfo/SettingsInfo';
+import About from './About/About';
 import styles from './styles';
 
 function UserProfile() {
     const user = useSelector((state) => state.user.user);
     const profileInfo = useSelector((state) => state.profileInfo.profileInfo);
+    const settingsInfo = useSelector((state) => state.settingsInfo.settingsInfo);
+    const about = useSelector((state) => state.about.about);
     const navigation = useNavigation();
     const dispatch = useDispatch();
 
@@ -31,6 +37,14 @@ function UserProfile() {
         dispatch(setProfileInfo(true))
     }
 
+    const handleSettingsInfo = () => {
+        dispatch(setSettingsInfo(true))
+    }
+
+    const handleAbout = () => {
+        dispatch(setAbout(true))
+    }
+
     return (
         <View style={styles.userProfile}>
             <View style={styles.userInfo}>
@@ -44,7 +58,9 @@ function UserProfile() {
                 </View>
             </View>
             {profileInfo && <ProfileInfo />}
-            {!profileInfo &&
+            {settingsInfo && <SettingsInfo />}
+            {about && <About />}
+            {!profileInfo && !settingsInfo && !about &&
                 <>
                     <View style={styles.userNav}>
                         <TouchableOpacity onPress={handleProfileInfo}>
@@ -53,11 +69,11 @@ function UserProfile() {
                         <TouchableOpacity onPress={() => navigation.navigate('Favorites')}>
                             <Text style={styles.navList}>Favorites</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity >
+                        <TouchableOpacity onPress={handleSettingsInfo}>
                             <Text style={styles.navList}>Settings</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity >
-                            <Text style={styles.navList}>Help Center</Text>
+                        <TouchableOpacity onPress={handleAbout}>
+                            <Text style={styles.navList}>About</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.logout}>

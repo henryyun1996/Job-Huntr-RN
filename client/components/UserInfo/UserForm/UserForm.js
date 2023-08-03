@@ -36,7 +36,7 @@ function UserForm() {
     const initialValues = {
         fname: '',
         lname: '',
-        email: 'f@gmail.com',
+        email: 'hernandezchristian94@gmail.com',
         phone_number: '',
         street_address: '',
         city: '',

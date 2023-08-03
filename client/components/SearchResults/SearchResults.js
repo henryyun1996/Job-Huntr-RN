@@ -32,7 +32,7 @@ function SearchResults() {
         } else {
             console.log("not saved")
             handleSavedCard(index);
-            // alert("You must be signed in to save a job.");
+            alert("You must be signed in to save a job.");
         }
     };
 
