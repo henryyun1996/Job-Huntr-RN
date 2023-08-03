@@ -38,14 +38,28 @@ class UserByID(Resource):
         user = User.query.filter_by(id=id).first()
         if not user:
             return make_response({"error": "User not found"}, 404)
-        new_password = request.json.get('_password_hash')
         new_email = request.json.get('email')
+        new_phone_number = request.json.get('phone_number')
+        new_street_address = request.json.get('street_address')
+        new_city = request.json.get('city')
+        new_state = request.json.get('state')
+        new_postal_code = request.json.get('postal_code')
+        new_password = request.json.get('_password_hash')
 
-        if new_password:
-            user.password_hash = new_password
-        
         if new_email:
             user.email = new_email
+        if new_phone_number:
+            user.phone_number = new_phone_number
+        if new_street_address:
+            user.street_address = new_street_address
+        if new_city:
+            user.city = new_city
+        if new_state:
+            user.state = new_state
+        if new_postal_code:
+            user.postal_code = new_postal_code
+        if new_password:
+            user.password_hash = new_password
 
         db.session.commit()
         return make_response(user.to_dict(), 200)
@@ -72,10 +86,7 @@ class Login(Resource):
 
         if check_user and check_user.authenticate(password):
             session['user_id'] = check_user.id
-            response_data = {
-                'message': 'Login successful',
-                'user': check_user.to_dict()
-            }
+            response_data = check_user.to_dict()
             return make_response(response_data, 200)
         
         return {'error': 'Unauthorized'}, 401
@@ -98,12 +109,22 @@ class Signup(Resource):
         fname = request_json.get('fname')
         lname = request_json.get('lname')
         email = request_json.get('email')
+        phone_number = request_json.get('phone_number')
+        street_address = request_json.get('street_address')
+        city = request_json.get('city')
+        state = request_json.get('state')
+        postal_code = request_json.get('postal_code')
         password = request_json.get('password')
 
         new_user = User(
             fname=fname,
             lname=lname,
-            email=email
+            email=email,
+            phone_number=phone_number,
+            street_address=street_address,
+            city=city,
+            state=state,
+            postal_code=postal_code
         )
 
         new_user.password_hash = password
@@ -202,6 +223,7 @@ class Favorites(Resource):
         job_qualifications = request_json.get('job_qualifications')
         job_responsibilities = request_json.get('job_responsibilities')
         job_benefits = request_json.get('job_benefits')
+        job_id = request_json.get('job_id')
         user_id = request_json.get('user_id')
 
         new_favorite = Favorite(
@@ -218,6 +240,7 @@ class Favorites(Resource):
             job_qualifications = job_qualifications,
             job_responsibilities = job_responsibilities,
             job_benefits = job_benefits,
+            job_id = job_id,
             user_id = user_id
         )
 

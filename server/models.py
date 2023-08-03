@@ -18,6 +18,11 @@ class User(db.Model, SerializerMixin):
     fname = db.Column(db.String, nullable=False)
     lname = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False)
+    phone_number = db.Column(db.String, nullable=False)
+    street_address = db.Column(db.String, nullable=False)
+    city = db.Column(db.String, nullable=False)
+    state = db.Column(db.String, nullable=False)
+    postal_code = db.Column(db.Integer, nullable=False)
     _password_hash = db.Column(db.String, nullable=False)
 
     created_at = db.Column(db.DateTime, server_default=db.func.now())
@@ -57,6 +62,7 @@ class Favorite(db.Model, SerializerMixin):
     job_qualifications = db.Column(db.String)
     job_responsibilities = db.Column(db.String)
     job_benefits = db.Column(db.String)
+    job_id = db.Column(db.String)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     

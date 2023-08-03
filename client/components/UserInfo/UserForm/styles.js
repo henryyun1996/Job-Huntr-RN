@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
         margin: 5,
         borderBottomWidth: 1,
         borderRadius: 8,
-        borderBottomColor: "#00000055"
+        borderBottomColor: "#00000055",
     },
     loginRegisterBtn: {
         textAlign: "center",
